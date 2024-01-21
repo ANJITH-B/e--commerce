@@ -27,7 +27,7 @@ router.post('/add-product',(req,res)=>{
       else{
         console.log(err);
       }
-    })
+    }) 
   })
 })
 
