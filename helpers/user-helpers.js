@@ -23,16 +23,17 @@ module.exports = {
                     if (status) {
                         console.log("login success");
                         response.user = user
-                        response.status = true
+                        response.status = true 
+                        // response.message = "login success"
                         resolve(response);
                     } else {
                         console.log("login failed incorrect password")
-                        resolve({status: false})
+                        resolve({ status: false, message: "incorrect password !",loginErr: true })
                     }
                 })
             } else {
                 console.log("login failed user not found")
-                resolve({status: false})
+                resolve({ status: false, message: "Invalid email !",loginErr: true })
 
             }
         })

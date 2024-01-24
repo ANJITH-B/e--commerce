@@ -7,40 +7,36 @@
             </div>
             <div class="modal-body">
 
+                <div class="mb-1">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" name="Email" class="form-control" id="email" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-1">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" name="Password" class="form-control" id="password">
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <a class="btn text-primary btn-sm" data-bs-target="#SignUp" data-bs-toggle="modal"
+                    class="stretched-link ">don't have an account ! </a>
+                {{#if loginErr}}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="height: 14px;"
+                        class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
+                        aria-label="Warning:">
+                        <path
+                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                    </svg>
 
-                <form action="/Login" method="post">
-                    <div class="mb-1">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" name="Email" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-1">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" name="Password" class="form-control" id="exampleInputPassword1">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                    </div>
-                    <a class="btn text-primary btn-sm" data-bs-target="#SignUp" data-bs-toggle="modal"
-                        class="stretched-link ">don't have an account ! </a>
+                    <strong>Invaild </strong>{{#if loginErr}} username! {{/if}} {{#if loginPss}} password! {{/if}}
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {{/if}}
+                <div id="error"></div>
 
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                          <svg xmlns="http://www.w3.org/2000/svg" style="height: 14px;"
-                            class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
-                            aria-label="Warning:">
-                            <path
-                                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                        </svg>
-                        {{#if loginErr}}  
-                        <strong>Invaild </strong> username !
-                        {{/if}}
-                        <button type="button" class="btn-close btn-sm"  data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-
-
-                    <div class="row ms-1 me-1">
-                        <button type="submit" class="btn btn-primary justify-content-end">Login</button>
-                    </div>
-                </form>
-
+                <div class="row ms-1 me-1">
+                    <button type="button" onclick="handleSubmit()"
+                        class="btn btn-primary justify-content-end">Login</button>
+                </div>
 
             </div>
         </div>
@@ -91,6 +87,43 @@
         </div>
     </div>
 </div>
+<script>
+    async function handleSubmit() {
+        const Email = document.getElementById('email').value
+        const Password = document.getElementById('password').value
 
+        try {
+
+            const response = await axios.post('/Login', { Email, Password })
+            const message = response?.data?.message;
+
+        if (message) {
+
+            document.getElementById('error').innerHTML = `                    
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+           <svg xmlns="http://www.w3.org/2000/svg" style="height: 14px;"
+               class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
+               aria-label="Warning:">
+               <path
+                   d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+           </svg>
+           <strong>${message}</strong>
+           <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert"
+               aria-label="Close"></button>
+        </div>`
+        }else{
+            window.location.reload()
+            console.error('Unexpected response format:',response);
+        }
+        }catch (error) {
+            console.error('Error during login: ', error)
+        }
+}
+</script>
 
 <a class="btn btn-primary px-2" data-bs-target="#Login" data-bs-toggle="modal">Login</a>
+
+
+
+{{!-- .then(res => res?.data?.message)
+.catch (err=> err?.message) --}}
