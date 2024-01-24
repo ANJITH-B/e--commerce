@@ -10,6 +10,7 @@ var adminRouter = require('./routes/admin');
 var app = express();
 var fileUpload = require('express-fileupload');
 var db=require('./config/connection');
+var session = require("express-session")
 
 // view engine setup
 var hbs = require('express-handlebars');
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(fileUpload())
+app.use(session({secret:"Key",cookie:{maxAge:600000}}))
 db.connect((err)=>{
   if(err) console.log('err conneting data base'+err);
   else console.log('database connected succefully');
