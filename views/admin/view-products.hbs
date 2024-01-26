@@ -21,12 +21,36 @@
                     <td>{{this.Category}}</td>
                     <td>{{this.description}}</td>
                     <td><img style="width: 50px; hegith: 50%;" src='/product-images/{{this._id}}.jpg' alt="..."></td>
-                    <td><a href="admin/edit-product/{{this._id}}" class="btn btn-primary btn-sm"  >Edit</a>
-                        <a href="admin/delete-product?id={{this._id}}" class="btn btn-danger btn-sm"  >delete</a>
+                    <td><a href="admin/edit-product/{{this._id}}" class="btn btn-primary btn-sm">Edit</a>
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            class="btn btn-danger btn-sm">delete</a>
                     </td>
                 </tr>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Confrom delete</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                               If you haven confrom this to delete, then the product will be moved prementenly
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="admin/delete-product?id={{this._id}}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {{/each}}
+
             </tbody>
         </table>
     </div>
+
 </section>
