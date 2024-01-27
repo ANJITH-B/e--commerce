@@ -23,6 +23,8 @@ router.get('/cart', (req,res) => {
 router.post('/SignUp', (req, res) => {
   userHelpers.doSignup(req.body).then((response) => {
     console.log(response);
+    req.session.loggedIn = true
+    req.session.user = response
     res.redirect('/')
   })
 })
