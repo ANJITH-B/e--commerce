@@ -4,9 +4,7 @@ var objectId = require("mongodb").ObjectId
 
 module.exports = {
   addProduct: (product, callback) => {
-    //console.log(product);
     db.get().collection('product').insertOne(product).then((data) => {
-      //console.log(data);
       callback(data.insertedId);
     })
   },
@@ -33,7 +31,7 @@ module.exports = {
   updateProduct: (prodId, proDetails) => {
     return new Promise((resolve, reject) => {
       db.get().collection(collection.PRODUCT_COLLECTION)
-        .updateOne({ _id:objectId(prodId) }, {
+        .updateOne({ _id: objectId(prodId) }, {
           $set: {
             Name: proDetails.Name,
             // Price: proDetails.Price,
@@ -41,11 +39,7 @@ module.exports = {
             description: proDetails.description,
           }
         }).then((response) => {
-          if (response.modifiedCount > 0) {
-            resolve()
-          } else {
-            reject(new Error("No prouduct updated"))
-          }
+          resolve()
         })
     })
   }
