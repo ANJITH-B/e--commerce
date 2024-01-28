@@ -4,21 +4,23 @@ const productHelpers = require('../helpers/product-helpers');
 const userHelpers = require('../helpers/user-helpers');
 const { response } = require('../app');
 
+
 router.get('/', function (req, res, next) {
   let user = req.session.user
   console.log(user)
   productHelpers.getAllProducts().then((products) => {
-    res.render('user/view-products', { admin: false, products, user, loginErr: req.session.loginErr});
+    res.render('user/view-products', { admin: false, products, user, loginErr: req.session.loginErr });
     req.session.loginErr = false
   })
-});
-
-// router.get('/login', (req, res) => {
-//   res.render('user/login')
-// })
-router.get('/cart', (req,res) => {
-  res.render('user/cart')
 })
+
+const verifyLogin = (req, res, next) => {
+  if (req.session.loggedIn) {
+    next()
+  } else {
+    res.redirect('/')
+  }
+}
 
 router.post('/SignUp', (req, res) => {
   userHelpers.doSignup(req.body).then((response) => {
@@ -47,10 +49,24 @@ router.post('/Login', (req, res) => {
   })
 })
 
-
 router.get('/Logout', (req, res) => {
   req.session.destroy()
   res.redirect('/')
 })
+
+router.get('/cart', verifyLogin, async (req, res) => {
+  let user = req.session.user
+  let products = await userHelpers.getCartProducts(req.session.user._id)
+  console.log(products)
+  res.render('user/cart', { user })
+})
+
+
+router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
+  userHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
+    res.redirect('/')
+  })
+})
+
 
 module.exports = router;
