@@ -51,7 +51,7 @@ module.exports = {
                         $push: { products: objectId(proId) }
                     }
                 ).then((response) => {
-                    resolve()
+                    resolve() 
                 })
 
             } else {
