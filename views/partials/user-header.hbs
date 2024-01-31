@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark" >
+<nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Shoping Cart</a>
+        <a class="navbar-brand" href="/">Shoping Cart</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
             aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,18 +8,18 @@
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">products</a>
+                    <a class="nav-link active" aria-current="page" href="/products">products</a>
                 </li>
                 {{#if user}}
                 <li class="nav-item">
-                    <a class="nav-link" href="/cart">cart</a>
+                    <a class="nav-link" href="/cart">cart <span class="badge text-bg-success">{{cartCount}}</span></a>
                 </li>
                 {{/if}}
                 <li class="nav-item">
                     <a class="nav-link disabled"></a>
                 </li>
             </ul>
-            <form class="d-flex" role="search"  data-bs-theme="dark">
+            <form class="d-flex" role="search" data-bs-theme="dark">
                 <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success " type="submit">Search</button>
             </form>

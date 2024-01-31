@@ -5,11 +5,15 @@ const userHelpers = require('../helpers/user-helpers');
 const { response } = require('../app');
 
 
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res, next) {
   let user = req.session.user
   console.log(user)
+  let cartCount = null
+  if (req.session.user) {
+    cartCount = await userHelpers.getCartCount(req.session.user._id)
+  }
   productHelpers.getAllProducts().then((products) => {
-    res.render('user/view-products', { admin: false, products, user, loginErr: req.session.loginErr });
+    res.render('user/view-products', { cartCount, products, user, loginErr: req.session.loginErr });
     req.session.loginErr = false
   })
 })
@@ -56,9 +60,19 @@ router.get('/Logout', (req, res) => {
 
 router.get('/cart', verifyLogin, async (req, res) => {
   let user = req.session.user
+  let cartCount = null
+  if (req.session.user) {
+    cartCount = await userHelpers.getCartCount(req.session.user._id)
+  }
   let products = await userHelpers.getCartProducts(req.session.user._id)
   console.log(products)
-  res.render('user/cart', { user, products })
+  res.render('user/cart', {
+    user, products, cartCount
+  })
+})
+router.get('/products', verifyLogin, (req, res) => {
+  let user = req.session.user
+  res.render('user/products', { user })
 })
 
 
