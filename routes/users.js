@@ -72,7 +72,7 @@ router.get('/cart', verifyLogin, async (req, res) => {
 })
 router.get('/products', verifyLogin, (req, res) => {
   let user = req.session.user
-  res.render('user/products', { user })
+  res.render('user/login', { user })
 })
 
 
