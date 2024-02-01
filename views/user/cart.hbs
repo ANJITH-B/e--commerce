@@ -7,15 +7,20 @@
         {{#each products}}
         <div class="card mt-2 card-sm" style="max-width: 100vw;">
           <div class="row g-0">
+            {{#each this.products}}
             <div class="col-md-3">
               <img src="./product-images/{{this._id}}.jpg" class="img-fluid rounded-start" alt="...">
             </div>
+            {{/each}}
             <div class="col-md-8">
               <div class="card-body">
+                {{#each this.products}}
                 <h5 class="card-title">{{this.Name}}</h5>
                 <p class="card-text fs-6">{{this.description}}</p>
+                {{/each}}
                 {{!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> --}}
-                <button class="btn">-</button>2<button class="btn">+</button><a class="btn btn-danger btn-sm" href="">
+                <button class="btn">-</button>{{this.quantity}}<button class="btn">+</button><a
+                  class="btn btn-danger btn-sm" href="">
                   remove</a>
               </div>
             </div>
