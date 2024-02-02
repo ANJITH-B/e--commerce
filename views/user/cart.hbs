@@ -7,14 +7,14 @@
         {{#each products}}
         <div class="card mt-2 card-sm" style="max-width: 100vw;">
           <div class="row g-0">
-            {{#each this.products}}
+            {{#each this.product}}
             <div class="col-md-3">
               <img src="./product-images/{{this._id}}.jpg" class="img-fluid rounded-start" alt="...">
             </div>
             {{/each}}
             <div class="col-md-8">
               <div class="card-body">
-                {{#each this.products}}
+                {{#each this.product}}
                 <h5 class="card-title">{{this.Name}}</h5>
                 <p class="card-text fs-6">{{this.description}}</p>
                 {{/each}}

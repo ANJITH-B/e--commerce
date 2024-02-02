@@ -90,7 +90,7 @@ module.exports = {
                 }, {
                     $project: {
                         item: '$products.item',
-                        quantity: '$products.quatity'
+                        quantity: '$products.quantity'
                     }
                 }, {
                     $lookup:{
@@ -117,8 +117,8 @@ module.exports = {
                 //     }
                 // }
             ]).toArray()
-            console.log(cartItems)
-            resolve(cartItems[0].cartItems)
+            console.log(cartItems.product)
+            resolve(cartItems)
         })
     },
     getCartCount: (userId) => {
