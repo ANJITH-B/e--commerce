@@ -8,14 +8,16 @@
                     <h5 class="card-title">{{this.Name}}</h5>
                     <p class="card-text">{{this.Category}}</p>
 
-
+                    {{#if ../user}}
                     {{!-- <a href="/add-to-cart/{{this._id}}" class="btn btn-primary btn-sm">Add to Cart</a> --}}
-                    <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">Add to Cart</button>
-                    {{!-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                    <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">Add to Carts</button>
+                    {{else}}
+                    {{user.Name}}
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
                         Add to Cart
-                    </button> --}}
-
+                    </button>
+                    {{/if}}
 
                 </div>
             </div>
@@ -23,7 +25,7 @@
         {{/each}}
     </div>
 </div>
-
+{{user.Name}}
 
 
 
