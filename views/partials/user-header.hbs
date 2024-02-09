@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark ">
+    <div class="container-fluid ">
         <a class="navbar-brand" href="/">Shoping Cart</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
             aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,17 +7,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/products">products</a>
-                </li>
+                <li class="nav-item"> <a class="nav-link active" aria-current="page" href="/products">products</a></li>
                 {{#if user}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/cart">cart <span id="cart-count" class="badge text-bg-success">{{cartCount}}</span></a>
-                </li>
+                <li class="nav-item"> <a class="nav-link" id="popoverTrigger" href="/cart" data-bs-container="body"
+                        data-bs-toggle="popover" data-bs-placement="bottom" data-bs-tittle="One new item added to cart"
+                        data-bs-content="One new Item add to cart">cart <span id="cart-count"
+                            class="badge text-bg-success">{{cartCount}}</span></a></li>
                 {{/if}}
-                <li class="nav-item">
-                    <a class="nav-link disabled"></a>
-                </li>
+                <li class="nav-item"><a class="nav-link disabled"></a></li>
             </ul>
             <form class="d-flex" role="search" data-bs-theme="dark">
                 <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
@@ -26,9 +23,7 @@
             {{#if user}}
             <div class="dropdown px-2 dropdown-sm">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    {{user.Name}}
-                </button>
+                    aria-expanded="false">{{user.Name}}</button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/Logout">Logout</a></li>
                 </ul>

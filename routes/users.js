@@ -82,9 +82,10 @@ router.get('/add-to-cart/:id', (req, res) => {
 })
 
 router.post('/change-product-quantity', (req, res, next) => {
-userHelpers.changeProductQuantity(req.bodu).then(() => {
-  
-})
+  console.log(req.body)
+  userHelpers.changeProductQuantity(req.body).then((response) => {
+    res.json(response)
+  })
 })
 
 

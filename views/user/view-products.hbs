@@ -7,12 +7,12 @@
                 <div class="card-body">
                     <h5 class="card-title">{{this.Name}}</h5>
                     <p class="card-text">{{this.Category}}</p>
-
+                    <h6 class="card-title">{{this.Price}}</h6>
                     {{#if ../user}}
-                    {{!-- <a href="/add-to-cart/{{this._id}}" class="btn btn-primary btn-sm">Add to Cart</a> --}}
-                    <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">Add to Carts</button>
+                    <button onclick="addToCart('{{this._id}}')" id="secondButton" class="btn btn-primary">Add to
+                        Carts</button>
                     {{else}}
-                    {{user.Name}}
+
                     <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
                         Add to Cart
@@ -50,20 +50,22 @@
     </div>
 </div>
 
-
-
 <script>
+    var popover
+    document.addEventListener('DOMContentLoaded', function () {
+        popover = new bootstrap.Popover(document.getElementById('popoverTrigger'));
+    });
     function addToCart(proId) {
+        popover.show()
         $.ajax({
             url: '/add-to-cart/' + proId,
             method: 'get',
-            success:(response)=>{
-                if(response.status){
-                    let count=$('#cart-count').html()
-                    count = parseInt(count)+1
+            success: (response) => {
+                if (response.status) {
+                    let count = $('#cart-count').html()
+                    count = parseInt(count) + 1
                     $("#cart-count").html(count)
                 }
-                
             }
         })
     }

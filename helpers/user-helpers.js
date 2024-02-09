@@ -14,7 +14,6 @@ module.exports = {
             }).catch((err) => { reject(err) })
         })
     },
-
     doLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
             let loginStatus = false
@@ -122,14 +121,25 @@ module.exports = {
             resolve(count)
         })
     },
-    changeProductQuantity: ({ cartId, proId, count }) => {
+    changeProductQuantity: (details) => {
+        var quantity = parseInt(details.quantity)
+        var count = parseInt(details.count)
+
+        console.log(details.count)
+        console.log(count)
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.CART_COLLECTION)
-                .updateOne({ _id: objectId(cartId), 'products.item': objectId(proId) }, {
+            if (count == -1 && quantity == 1) {
+                db.get().collection(collection.CART_COLLECTION)
+                    .updateOne({ _id: objectId(details.cart) },
+                        { $pull: { products: { item: objectId(details.product) } } }
+                    ).then((response) => { resolve({ removeProduct: true }) })
+            } else {
+                db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectId(details.cart), 'products.item': objectId(details.product) }, {
                     $inc: { 'products.$.quantity': count }
-                }).then(() => {
-                    resolve()
+                }).then((response) => {
+                    resolve(true)
                 })
+            }
         })
     }
 

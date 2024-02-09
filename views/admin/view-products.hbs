@@ -10,6 +10,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">category</th>
                     <th scope="col">description</th>
+                    <th scope="col">Price</th>
                     <th scope="col">image</th>
                 </tr>
             </thead>
@@ -20,6 +21,7 @@
                     <td>{{this.Name}}</td>
                     <td>{{this.Category}}</td>
                     <td>{{this.description}}</td>
+                    <td>{{this.Price}}</td>
                     <td><img style="width: 50px; hegith: 50%;" src='/product-images/{{this._id}}.jpg' alt="..."></td>
                     <td><a href="admin/edit-product/{{this._id}}" class="btn btn-primary btn-sm">Edit</a>
                         <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"

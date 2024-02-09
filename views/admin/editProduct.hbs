@@ -13,9 +13,14 @@
                     <label for="">description</label>
                     <input type="text" name="description" value="{{product.description}}" class="form-control">
 
+
+                    <label for="">Price</label>
+                    <input type="text"  name="Price" class="form-control" value="${{product.Price}}">
+
                     <label for="">Image</label>
-                    <img  src="/product-images/{{product._id}}.jpg"  alt="current image" id="imgView" class=" rounded-3 m-3" style="width: 10rem;">
-                    <input type="file"  class="form-control" name="Image" onchange="viewImage(event)">
+                    <img src="/product-images/{{product._id}}.jpg" alt="current image" id="imgView"
+                        class=" rounded-3 m-3" style="width: 10rem;">
+                    <input type="file" class="form-control" name="Image" onchange="viewImage(event)">
                     <button type="submit" class="btn btn-success mt-3">Submit</button>
                 </form>
             </div>
@@ -24,7 +29,7 @@
 </section>
 
 <script>
-    function viewImage(event){  
-        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    function viewImage(event) {
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
     }
 </script>

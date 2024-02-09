@@ -34,9 +34,10 @@ module.exports = {
         .updateOne({ _id: objectId(prodId) }, {
           $set: {
             Name: proDetails.Name,
-            // Price: proDetails.Price,
             Category: proDetails.Category,
             description: proDetails.description,
+            Price: proDetails.Price,
+            // Price: proDetails.Price,
           }
         }).then((response) => {
           resolve()

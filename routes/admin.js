@@ -46,13 +46,13 @@ router.post('/edit-product/:id', (req, res) => {
       let image = req.files.Image
       console.log(id)
       image.mv('./public/product-images/' + id + '.jpg', (err) => {
-        res.redirect('/admin')
         if (err) {
           console.error('Error uploading image:', err);
         }else {
           console.log("Image uploaded successfully")
         }
       })
+      res.redirect('/admin')
     }
   })
 })
