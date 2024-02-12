@@ -35,6 +35,7 @@ router.post('/SignUp', (req, res) => {
   })
 })
 
+
 router.post('/Login', (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
     console.log("Login response:", response);
@@ -53,12 +54,20 @@ router.post('/Login', (req, res) => {
   })
 })
 
+
 router.get('/Logout', (req, res) => {
   req.session.destroy()
   res.redirect('/')
 })
 
+
 router.get('/cart', verifyLogin, async (req, res) => {
+  const statesInIndia = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
+    "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh",
+    "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim",
+    "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  ];
   let user = req.session.user
   let cartCount = null
   if (req.session.user) {
@@ -66,11 +75,13 @@ router.get('/cart', verifyLogin, async (req, res) => {
   }
   let products = await userHelpers.getCartProducts(req.session.user._id)
   console.log(products)
-  res.render('user/cart', { user, products, cartCount })
+  res.render('user/cart', { user, products, cartCount, statesInIndia })
 })
+
+
 router.get('/products', verifyLogin, (req, res) => {
   let user = req.session.user
-  res.render('user/products', { user })
+  res.render('user/products', { user, })
 })
 
 
@@ -88,5 +99,14 @@ router.post('/change-product-quantity', (req, res, next) => {
   })
 })
 
+router.get('/order', verifyLogin, async (req, res) => {
+  let user = req.session.user
+  let products = await userHelpers.getCartProducts(req.session.user._id)
+  console.log(products)
+  res.render('user/orders', { user, products })
+})
 
+router.post('/add-new-address', (req, res, next) => {
+  console.log(req.body)
+})
 module.exports = router;

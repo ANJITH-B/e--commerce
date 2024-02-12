@@ -53,7 +53,7 @@
               {{#each products}}
               <tr>
                 <td>{{this.Name}}</td>
-                <td>{{this.Qty}}Qty</td>
+                <td>{{this.quantity}}</td>
                 <td>{{this.Price}}</td>
                 <td>$40.00</td>
               </tr>
@@ -73,41 +73,17 @@
   </div>
 </div>
 
-
-
 <style>
   ::-webkit-scrollbar {
     width: 10px;
   }
+
+  a {
+    text-decoration: none;
+  }
 </style>
 
-<script>
-  function changeQuantity(cartId, proId, count) {
-    let quantity = parseInt(document.getElementById(proId).innerHTML)
-    count = parseInt(count)
-    $.ajax({
-      url: '/change-product-quantity',
-      data: {
-        cart: cartId,
-        product: proId,
-        count: count,
-        quantity: quantity
-      },
-      method: 'post',
-      success: (response) => {
-        if (response.removeProduct) {
-          $('#example').modal('show');
-          alert('product removed from cart')
-          location.reload()
-        } else {
-          document.getElementById(proId).innerHTML = quantity + count
-        }
-      }
-    })
-  }
-</script>
-
-{{!-- modal checkout  --}}
+{{!-- modal checkout --}}
 
 <div class="modal fade modal-fullscreen-md-down" id="exampleModalToggle" aria-hidden="true"
   aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -140,7 +116,8 @@
               </label>
             </div>
             <div class="d-grid col-6 mx-4 w-100 ">
-              <button class="btn btn-secondary btn-sm " data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Add
+              <button class="btn btn-secondary btn-sm" type="submit" data-bs-target="#exampleModalToggle2"
+                data-bs-toggle="modal">Add
                 New Address</button>
             </div>
           </div>
@@ -166,7 +143,9 @@
 </div>
 
 
-{{!-- modal add new address  --}}
+
+
+{{!-- modal add new address --}}
 
 <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
   tabindex="-1">
@@ -176,33 +155,134 @@
         <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add a new address</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        {{!-- <label for="inputPassword5" class="form-label">Password</label> --}}
-        <div class="input-group py-2">
-          <input type="text" name="name" placeholder="Frist name" aria-label="First name" class="form-control">
-          <input type="text" name="fname" placeholder="Last name" aria-label="Last name" class="form-control">
-        </div>
-        <input type="text" name="contact" class="form-control" placeholder="Phone No">
-        <div class="input-group py-2">
-          <input type="text" name="name" placeholder="Flat, House no., Company, Apartment" aria-label="First name" class="form-control">
-          <input type="text" name="fname" placeholder="PostCode" aria-label="Last name" class="form-control">
-        </div>
-        <input type="text" name="name" class="form-control" placeholder="Area, Street, Sector, Village">
-        <input type="text" name="name" class="form-control" placeholder="Landmark">  
+      <form class="needs-validation" novalidate id="address">
+        <div class="modal-body">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Country/Region</option>
+            <option value="1">India</option>
+          </select>
+          <div class="input-group py-2">
+            <div>
+              <input type="text" value="{{user.Name}}" name="name" placeholder="Frist name" aria-label="First name"
+                class="form-control" id="validationCudstom01" required>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">please enter a user name!</div>
+            </div>
+            <div>
+            <input type="text" name="fname" placeholder="Last name" aria-label="Last name" class="form-control">
+              <div class="valid-feedback">Looks good!</div>
 
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to
-          first</button>
-      </div>
+            </div>
+          
+          </div>
+          <div>
+            
+            <input type="number" name="contact" id="validationCustom05" class="form-control" placeholder="Phone No" required>
+            <div class="invalid-feedback"> incorrect formate pl</div>
+          </div>
+          <div class="input-group py-2">
+            <input type="text" name="House no." placeholder="Flat, House no., Company, Apartment"
+              aria-label="First name" class="form-control">
+            <input type="text" name="PostCode" placeholder="PostCode" aria-label="Last name" class="form-control">
+          </div>
+          <input type="text" name="Area" class="form-control" placeholder="Area, Street, Sector, Village">
+          <input type="text" name="Landmark" class="form-control mt-2" placeholder="Landmark">
+          <div class="input-group py-2">
+            <select class="form-select" name="state" aria-label="Default select example">
+              <option selected>State</option>
+              {{#each statesInIndia}}
+              <option value="1">{{this}}</option>
+              {{/each}}
+            </select>
+            <input type="text" name="city" class="form-control" placeholder="Town/City">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-warning" type="submit" >Use
+            this address</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
-<button class="btn btn-primary">Open first modal</button>
 
 
-<style>
-  a {
-    text-decoration: none;
+
+
+<script>
+
+  document.getElementById('address').addEventListener('submit', (e) => {
+    e.preventDefault()
+    const formData = new FormData(document.getElementById('address'));
+    const formDataObject = {};
+    formData.forEach((value, key) => {
+      formDataObject[key] = value;
+    })
+    $.ajax({
+      url: '/add-new-address',
+      data: formDataObject,
+      method: 'post',
+      success:(response) => {
+        console.log(response);
+        var modaltoggle = new bootstrap.modal(document.getElementById('exampleModalToggle2'));
+        modaltoggle.hide();
+      },
+      error: (error) => {
+        console.error(error)
+      }
+    })
+
+
+
+  })
+  {{!-- console.log(formDataObjecet)
+  function handleSubmitAddress() {
+    var country = getElementById('country').value
+    var firstName = getElementById('firstName').value
+    var LastName = getElementById('lastName').value
+    var Phone = getElementById('phone').value
+    var S
+  } --}}
+
+  function changeQuantity(cartId, proId, count) {
+    let quantity = parseInt(document.getElementById(proId).innerHTML)
+    count = parseInt(count)
+    $.ajax({
+      url: '/change-product-quantity',
+      data: {
+        cart: cartId,
+        product: proId,
+        count: count,
+        quantity: quantity
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.removeProduct) {
+          $('#example').modal('show');
+          alert('product removed from cart')
+          location.reload()
+        } else {
+          document.getElementById(proId).innerHTML = quantity + count
+        }
+      }
+    })
   }
-</style>
+
+
+  (() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+
+</script>
+
+{{!-- data-bs-target="#exampleModalToggle" data-bs-toggle="modal" --}}
